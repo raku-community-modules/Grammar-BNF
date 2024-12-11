@@ -1,6 +1,4 @@
-#!/usr/bin/env perl6
 use Test;
-use lib './lib';
 use Grammar::BNF;
 
 plan 4;
@@ -35,4 +33,4 @@ ok Grammar::BNF.generate($t).new.parse('foobar');
 
 # TODO: Tests for other things in parse.t
 
-done-testing;
+# vim: expandtab shiftwidth=4

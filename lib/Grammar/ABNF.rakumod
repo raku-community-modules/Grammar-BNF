@@ -1,35 +1,38 @@
-my class ABNF-Actions {...};
+=begin pod
 
-=NAME Grammar ABNF - Parse ABNF grammars and create Perl 6 Grammars from them
+=head1 NAME
 
-=begin SYNOPSIS
-=begin code
+Grammar ABNF - Parse ABNF grammars and create Raku Grammars from them
 
-    use Grammar::ABNF;
+=head1 SYNOPSIS
 
-    my $g = Grammar::ABNF.parse(qq:to<END>, :name<MyGrammar>).made;
-    macaddr  = 5( octet [ ":" / "-" ] ) octet\r
-    octet    = 2HEXDIGIT\r
-    HEXDIGIT = %x30-39 / %x41-46 / %x61-66\r
-    END
+=begin code :lang<raku>
 
-    $g.parse('02-BF-C0-00-02-01')<macaddr><octet>».Str.print; # 02BFC0000201
+use Grammar::ABNF;
+
+my $g = Grammar::ABNF.parse(qq:to<END>, :name<MyGrammar>).made;
+macaddr  = 5( octet [ ":" / "-" ] ) octet\r
+octet    = 2HEXDIGIT\r
+HEXDIGIT = %x30-39 / %x41-46 / %x61-66\r
+END
+
+$g.parse('02-BF-C0-00-02-01')<macaddr><octet>».Str.print; # 02BFC0000201
 
 =end code
-=end SYNOPSIS
 
-=begin DESCRIPTION
+=head1 DESCRIPTION
 
 The Grammar::ABNF module provides a Grammar named C<Grammar::ABNF>
 which parses ABNF grammar definitions.  It also provides a smaller
 grammar named C<Grammar::ABNF::Core> containing only the (mostly
 terminal) core ABNF rules.
 
-The module may also be used to produce working Perl6 C<Grammar>s from
+The module may also be used to produce working Raku C<Grammar>s from
 the parsed ABNF definitions.
 
-=end DESCRIPTION
+=end pod
 
+my class ABNF-Actions {...};
 
 #|{ This grammar contains the core ABNF ruleset as defined in
     RFC 5234 Appendix B.1.  The rule names are uppercase as they
@@ -184,9 +187,9 @@ grammar Grammar::ABNF is Grammar::ABNF::Core {
 
     #|{ A custom C<.parse> method is provided.  By default, this
         method will pull in a C<:actions> class which will create
-        a Perl 6 Grammar in the C<.made> attribute attached to any
+        a Raku Grammar in the C<.made> attribute attached to any
         successful C<Match>.  In addition, a type name for the created
-        Perl 6 Grammar may be provided with C<:name>.  This defaults
+        Raku Grammar may be provided with C<:name>.  This defaults
         to C<'ABNF-Grammar'>.  It is advised that you provide your own.
 
         This method also sets up some internal state, so subgrammars
@@ -215,7 +218,7 @@ grammar Grammar::ABNF is Grammar::ABNF::Core {
         ABNF descriptions.  In that case, user-defined rule names
         will present as lowercase under introspection.
 
-        In order to allow ABNF rules that are not legal Perl 6
+        In order to allow ABNF rules that are not legal Raku
         identifiers, hypens and underscores will also be folded.
       }
     method FALLBACK (Grammar: Str $name, |c) {
@@ -418,18 +421,26 @@ grammar Grammar::ABNF::Slang is Grammar::ABNF {
 # And we need this to be named precisely this, I think (?)
 class Grammar::ABNF::Slang-actions is ABNF-Actions { }
 
-=AUTHOR Brian S. Julin
+=begin pod
 
-=COPYRIGHT Copyright (c) 2015 Brian S. Julin. All rights reserved.
+=head1 AUTHOR
 
-=begin LICENSE
+Tadeusz Sośnierz
+
+=head1 COPYRIGHT
+
+Copyright (c) 2015 Tadeusz Sośnierz
+
+=head1 LICENSE
+
 This program is free software; you can redistribute it and/or modify
 it under the terms of either the MIT license (as other files
 in this distribution may be) or the Perl Artistic License 2.0.
-=end LICENSE
 
-=begin REFERENCES
+=head1 REFERENCES
+
 =item "RFC 5234: Augmented BNF for Syntax Specifications: ABNF" (Crocker,Overall,THUS) L<https://tools.ietf.org/html/rfc5234>
-=end REFERENCES
 
-=SEE-ALSO C<perl6::(1)>
+=end pod
+
+# vim: expandtab shiftwidth=4

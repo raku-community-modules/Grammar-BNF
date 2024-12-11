@@ -1,6 +1,4 @@
-#!/usr/bin/env perl6
 use Test;
-use lib './lib';
 use Grammar::BNF;
 
 plan 6;
@@ -61,4 +59,4 @@ $t = q[
 ];
 ok Grammar::BNF.new.parse($t);
 
-done-testing;
+# vim: expandtab shiftwidth=4

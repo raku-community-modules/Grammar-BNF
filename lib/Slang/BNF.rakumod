@@ -1,4 +1,3 @@
-
 # Adaptation of ruoso++'s Grammar::EBNF slang code to Grammar::BNF
 
 use Grammar::BNF;
@@ -59,3 +58,5 @@ sub EXPORT(|) {
     }
     {}
 }
+
+# vim: expandtab shiftwidth=4

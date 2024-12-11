@@ -1,5 +1,4 @@
 use Test;
-use lib './lib';
 use Slang::BNF;
 
 plan 2;
@@ -11,3 +10,4 @@ bnf-grammar A::B {
 ok(A::B.parse("bar"), "Parse succeeds");
 ok(!A::B.parse("far"), "Parse fails when it doesn't match");
 
+# vim: expandtab shiftwidth=4

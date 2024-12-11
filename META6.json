@@ -1,22 +1,28 @@
 {
-  "perl" : "6",
-  "name" : "Grammar::BNF",
-  "description" : "Parse BNF and ABNF grammars and generate Perl 6 grammars from them",
-  "version" : "v0.1.0",
-  "license" : "MIT",
-  "build-depends" : [ ],
-  "test-depends" : [
-    "Test"
+  "auth": "zef:raku-community-modules",
+  "authors": [
+    "Tadeusz Sośnierz"
   ],
-  "source-url" : "https://github.com/tadzik/Grammar-BNF.git",
-  "depends" : [ ],
-  "provides" : {
-      "Grammar::BNF"  : "lib/Grammar/BNF.pm",
-      "Slang::BNF"    : "lib/Slang/BNF.pm",
-      "Grammar::ABNF" : "lib/Grammar/ABNF.pm",
-      "Slang::ABNF"    : "lib/Slang/ABNF.pm"
+  "build-depends": [
+  ],
+  "depends": [
+  ],
+  "description": "Parse (A)BNF grammars and generate Raku grammars from them",
+  "license": "MIT",
+  "name": "Grammar::BNF",
+  "perl": "6",
+  "provides": {
+    "Grammar::ABNF": "lib/Grammar/ABNF.rakumod",
+    "Grammar::BNF": "lib/Grammar/BNF.rakumod",
+    "Slang::ABNF": "lib/Slang/ABNF.rakumod",
+    "Slang::BNF": "lib/Slang/BNF.rakumod"
   },
-  "support" : {
-    "source" : "https://github.com/tadzik/Grammar-BNF.git"
-  }
+  "resources": [
+  ],
+  "source-url": "https://github.com/raku-community-modules/Grammar-BNF.git",
+  "tags": [
+  ],
+  "test-depends": [
+  ],
+  "version": "1.0"
 }

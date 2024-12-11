@@ -1,0 +1,66 @@
+unit sub MAIN(:a($author), :i($install));
+
+say run(<raku --version>, :out).out.slurp.chomp;
+say "Running on $*DISTRO.gist().\n";
+
+say "Testing {
+    "dist.ini".IO.lines.head.substr(7)
+}{
+    " including author tests" if $author
+}";
+
+my @failed;
+my $done   = 0;
+
+sub process($proc, $filename) {
+    if $proc {
+        $proc.out.slurp;
+    }
+    else {
+        @failed.push($filename);
+        if $proc.out.slurp -> $stdout {
+            my @lines = $stdout.lines;
+            with @lines.first(
+              *.starts-with(" from gen/moar/stage2"),:k)
+            -> $index {
+                say @lines[^$index].join("\n");
+            }
+            else {
+                say $stdout;
+            }
+        }
+        else {
+            say "No output received, exit-code $proc.exitcode() ($proc.signal()):\n$proc.os-error()";
+        }
+    }
+}
+
+sub install() {
+    my $zef  := $*DISTRO.is-win ?? 'zef.bat' !! 'zef';
+    my $proc := run $zef, "install", ".", "--verbose", "--/test", :out,:err,:merge;
+    process($proc, "*installation*");
+}
+
+sub test-dir($dir) {
+    for $dir.IO.dir(:test(*.ends-with: '.t' | '.rakutest')).map(*.Str).sort {
+        say "=== $_";
+        my $proc := run "raku", "--ll-exception", "-I.", $_, :out,:err,:merge;
+        process($proc, $_);
+        $done++;
+    }
+}
+
+test-dir("t");
+test-dir($_) for dir("t", :test({ !.starts-with(".") && "t/$_".IO.d})).map(*.Str).sort;
+test-dir("xt") if $author && "xt".IO.e;
+install if $install;
+
+if @failed {
+    say "\nFAILED: {+@failed} of $done:";
+    say "  $_" for @failed;
+    exit +@failed;
+}
+
+say "\nALL {"$done " if $done > 1}OK";
+
+# vim: expandtab shiftwidth=4
