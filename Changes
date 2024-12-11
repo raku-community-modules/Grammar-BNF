@@ -1,4 +1,6 @@
 Revision history for Grammar::BNF
 
 {{$NEXT}}
+
+1.1  2024-12-11T18:59:42+01:00
     - Initial version as a Raku Community module
