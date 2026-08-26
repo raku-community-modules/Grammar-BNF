@@ -233,7 +233,7 @@ class ABNF-Actions {
     method rulename($/) {
         my $n = ~$/<name>;
         $n = $n.lc;
-        # Try to paper over the fact that perl6 rulenames cannot contain
+        # Try to paper over the fact that Raku rulenames cannot contain
         # a hyphen followed by a decimal or at the end.
         $n = $n.split(/ \- <.before [ \d | $ ]> /).join("_");
         make $n;
@@ -264,7 +264,7 @@ class ABNF-Actions {
     method element($/) {
         # Only one of these will exist
         if $/<rulename> {
-            # Try to paper over the fact that perl6 rulenames cannot contain
+            # Try to paper over the fact that Raku rulenames cannot contain
             # a hyphen followed by a decimal or at the end.
             my $rn =
                 ~$/<rulename>.made.split(/\-<.before [ \d | $ ]>/).join("_");

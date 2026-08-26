@@ -58,7 +58,7 @@ In either case, the first rule appearing in the grammar definition will be alias
 MyGrammar.parse('bar',:rule<foo>).say; # ｢bar｣
 ```
 
-...and the Grammar may be subclassed to add or replace rules with Perl 6 rules:
+...and the Grammar may be subclassed to add or replace rules with Raku rules:
 
 ```raku
 grammar MyOtherGrammar is MyGrammar {

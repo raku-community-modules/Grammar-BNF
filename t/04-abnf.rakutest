@@ -366,7 +366,7 @@ is $abnf2.WHAT.gist, "(ABNF_of_ABNF)", 'ABNF can parse its own definition.';
 for @simpletests[]:kv -> $c, $p (:key($g), :value($i)) {
 
     # ABNF itself does not have <.rulename>, and the default implementation
-    # in perl6 elides trivial rules.  Also, we have a couple extra visible
+    # in Raku elides trivial rules.  Also, we have a couple extra visible
     # rules in the Raku implementation, and they do not always produce
     # <repeat> in the same way.
     #

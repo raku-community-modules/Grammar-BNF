@@ -46,7 +46,7 @@ $t = q[
 ok Grammar::BNF.new.parse($t);
 
 # unmodified grammar from wikipedia
-# <expression> is actually wrong and needs more optional whitespace; see the Perl 6 grammar
+# <expression> is actually wrong and needs more optional whitespace; see the Raku grammar
 $t = q[
 <syntax>         ::= <rule> | <rule> <syntax>
 <rule>           ::= <opt-whitespace> "<" <rule-name> ">" <opt-whitespace> "::=" <opt-whitespace> <expression> <line-end>

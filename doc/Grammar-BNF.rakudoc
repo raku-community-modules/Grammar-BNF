@@ -73,7 +73,7 @@ This is in most respects a true Raku, so subrules may be invoked:
 MyGrammar.parse('bar',:rule<foo>).say; # ｢bar｣
 =end code
 
-...and the Grammar may be subclassed to add or replace rules with Perl 6
+...and the Grammar may be subclassed to add or replace rules with Raku
 rules:
 
 =begin code :lang<raku>

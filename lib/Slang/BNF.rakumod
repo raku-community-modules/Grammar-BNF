@@ -10,10 +10,12 @@ multi sub prefix:<~>(Mu $/) {
     $/.Str
 }
 
+#-------------------------------------------------------------------------------
+# Legacy roles
 my role Slang::BNF::Legacy {
     rule package_declarator:sym<bnf-grammar> {
         :my $*OUTERPACKAGE := self.package;
-        <.sym>
+        <.sym><.kok>
         :my $*name;
         <longname> { $*name := ~$<longname> }
         \{
@@ -38,7 +40,6 @@ my role Slang::BNF::Actions::Legacy {
         my $target_package := $longname && $longname.is_declared_in_global
           ?? $*GLOBALish
           !! $*OUTERPACKAGE;
-        my $*PACKAGE = $<rules>.made;
         $W.install_package($/,
           $name, 'our', 'bnf-grammar', $target_package, $outer, $<rules>.made
         );
@@ -46,12 +47,56 @@ my role Slang::BNF::Actions::Legacy {
     }
 }
 
+#-------------------------------------------------------------------------------
+# Modern roles
+my role Slang::BNF {
+    rule package-declarator:sym<bnf-grammar> {
+        :my $*OUTERPACKAGE := self.package;
+        <.sym><.kok>
+        :my $*name;
+        <longname> { $*name := ~$<longname> }
+        \{
+        <rules=.FOREIGN-LANG('Grammar::BNF', 'main_syntax')>
+        \}
+        <.set_braid_from(self)>
+    }
+}
+my role Slang::BNF::Actions {
+    method package-declarator:sym<bnf-grammar>(Mu $/) {
+dd;
+
+#        my $W := $*W;
+#        my $longname := $W.dissect_longname($<longname>);
+#        my $outer    := $W.cur_lexpad();
+#
+#        my $name := nqp::getattr(
+#          $longname.type_name_parts('package name',:decl(1)),List,'$!reified'
+#        );
+#        my $target_package := $longname && $longname.is_declared_in_global
+#          ?? $*GLOBALish
+#          !! $*OUTERPACKAGE;
+#        $W.install_package($/,
+#          $name, 'our', 'bnf-grammar', $target_package, $outer, $<rules>.made
+#        );
+#        $/.'make'(QAST::IVal.new(:value(1)));
+    }
+}
+
+#-------------------------------------------------------------------------------
+# The actual slanging
 my sub EXPORT(|) {
     my $LANG := $*LANG;
+    my $raku := $LANG.^name.starts-with('Raku::');
 
     $LANG.define_slang("MAIN",
-       $LANG.slang_grammar('MAIN').^mixin(Slang::BNF::Legacy),
-       $LANG.slang_actions('MAIN').^mixin(Slang::BNF::Actions::Legacy)
+      $LANG.slang_grammar('MAIN').^mixin($raku
+        ?? Slang::BNF
+        !! Slang::BNF::Legacy
+      ),
+      $LANG.slang_actions('MAIN').^mixin($raku
+        ?? Slang::BNF::Actions
+        !! Slang::BNF::Actions::Legacy
+      )
     );
     $LANG.define_slang("Grammar::BNF", Grammar::BNF, Grammar::BNF-actions);
 
