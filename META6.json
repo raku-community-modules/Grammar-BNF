@@ -3,6 +3,8 @@
   "authors": [
     "Tadeusz Sośnierz"
   ],
+  "build-depends": [
+  ],
   "depends": [
   ],
   "description": "Parse (A)BNF grammars and generate Raku grammars from them",
@@ -15,12 +17,21 @@
     "Slang::BNF": "lib/Slang/BNF.rakumod"
   },
   "raku": "6",
+  "resources": [
+  ],
+  "source-url": "https://github.com/raku-community-modules/Grammar-BNF.git",
   "support": {
     "bugtracker": "https://github.com/raku-community-modules/Grammar-BNF/issues",
     "email": "community@raku.org",
     "source": "https://github.com/raku-community-modules/Grammar-BNF.git"
   },
-  "tags": [ "GRAMMAR", "BNF", "ABNF", "SLANG"
+  "tags": [
+    "GRAMMAR",
+    "BNF",
+    "ABNF",
+    "SLANG"
+  ],
+  "test-depends": [
   ],
   "version": "1.1"
 }

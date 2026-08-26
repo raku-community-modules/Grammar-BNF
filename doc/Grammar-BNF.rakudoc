@@ -143,8 +143,6 @@ will present as lowercase under introspection.
 In order to allow ABNF rules that are not legal Raku
 identifiers, hypens and underscores will also be folded.
 
-=end pod
-
 =head1 REFERENCES
 
 =item "RFC 5234: Augmented BNF for Syntax Specifications: ABNF" (Crocker,Overall,THUS) L<https://tools.ietf.org/html/rfc5234>
