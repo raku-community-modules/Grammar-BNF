@@ -1,7 +1,7 @@
 use Test;
 use Slang::BNF;
 
-plan 2;
+plan 16;
 
 bnf-grammar A::B {
 <foo> ::= "bar"
@@ -9,5 +9,62 @@ bnf-grammar A::B {
 
 ok(A::B.parse("bar"), "Parse succeeds");
 ok(!A::B.parse("far"), "Parse fails when it doesn't match");
+
+bnf-grammar Solo {
+<foo> ::= "solo"
+};
+
+ok(Solo.parse("solo"), "A single-part name resolves directly");
+ok(!Solo.parse("nope"), "A single-part grammar still rejects a mismatch");
+
+bnf-grammar A::C {
+<foo> ::= "baz"
+};
+
+ok(A::C.parse("baz"), "A second grammar under the same package parses");
+ok(A::B.parse("bar"), "The first grammar survives reuse of its package");
+
+bnf-grammar Deep::Down::G {
+<foo> ::= "deep"
+};
+
+ok(Deep::Down::G.parse("deep"), "A three-part name parses");
+is(Deep::Down.^name, "Deep::Down",
+    "An intermediate stub package is named with the accumulated parts");
+
+module M {
+    bnf-grammar Inner {
+<foo> ::= "inner"
+    };
+    bnf-grammar Nested::In {
+<foo> ::= "nested"
+    };
+    bnf-grammar GLOBAL::Escapee {
+<foo> ::= "top"
+    };
+    our $inside-parses = ?Nested::In.parse("nested");
+}
+
+ok(M::Inner.parse("inner"), "A grammar declared in a module binds under it");
+nok(GLOBAL::<Inner>:exists, "A grammar declared in a module stays out of GLOBAL");
+ok(M::Nested::In.parse("nested"),
+    "A multi-part name declared in a module binds under it");
+ok($M::inside-parses,
+    "A multi-part name resolves inside its own enclosing package");
+
+bnf-grammar Outer::Leaf {
+<foo> ::= "leaf"
+};
+bnf-grammar Outer {
+<foo> ::= "outer"
+};
+
+ok(Outer.parse("outer"), "A grammar can replace its own stub package");
+ok(Outer::Leaf.parse("leaf"),
+    "A grammar bound under the stub survives the replacement");
+ok(::('Escapee').parse("top"),
+    "A leading GLOBAL part installs at the top level");
+nok(M::<Escapee>:exists,
+    "A leading GLOBAL part does not bind under the enclosing module");
 
 # vim: expandtab shiftwidth=4
