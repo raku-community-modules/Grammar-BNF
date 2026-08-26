@@ -1,0 +1,19 @@
+use lib $*PROGRAM.parent.add("lib").Str;
+use Test;
+use nqp;
+
+plan 2;
+
+# The legacy frontend fails to precompile a module that declares a
+# bnf-grammar, so the precompilation round trip is only testable under
+# the RakuAST frontend.
+if nqp::gethllsym('Raku', 'COMPILER-FRONTEND') eq 'rakuast' {
+    require PrecompBNF <&precomp-parses>;
+    ok(precomp-parses("pre"), "A grammar declared in a precompiled module parses");
+    nok(precomp-parses("post"), "A grammar declared in a precompiled module rejects a mismatch");
+}
+else {
+    skip-rest "precompiling a module that declares a bnf-grammar needs the RakuAST frontend";
+}
+
+# vim: expandtab shiftwidth=4

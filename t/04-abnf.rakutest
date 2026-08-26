@@ -1,6 +1,6 @@
 use Test;
 
-plan 27;
+plan 29;
 
 use Grammar::ABNF;
 
@@ -393,5 +393,12 @@ foo = "bar"
 
 ok(A::C.parse("bar"), "Parse succeeds");
 ok(!A::C.parse("far"), "Parse fails when it doesn't match");
+
+abnf-grammar SoloAbnf {
+foo = "solo"
+};
+
+ok(SoloAbnf.parse("solo"), "A single-part name resolves directly");
+ok(!SoloAbnf.parse("nope"), "A single-part grammar still rejects a mismatch");
 
 # vim: expandtab shiftwidth=4
