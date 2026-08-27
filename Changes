@@ -1,6 +1,8 @@
 Revision history for Grammar::BNF
 
 {{$NEXT}}
+
+1.2  2026-08-27T13:43:06+02:00
     - Streamline code using more modern Raku features
     - Add support for RakuAST (needs 2026.09 release)
     - Modernize META and documentation

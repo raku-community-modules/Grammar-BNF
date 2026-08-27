@@ -128,7 +128,7 @@ Tadeusz Sośnierz
 COPYRIGHT AND LICENSE
 =====================
 
-Copyright 2010 - 2017 Tadeusz Sośnierz
+Copyright 2015 - 2020 Tadeusz Sośnierz
 
 Copyright 2024, 2026 Raku Community
 

@@ -1,2 +1,3 @@
 .precomp/
-/Grammar-ABNF-*
+/Grammar-*
+*.rakucov
