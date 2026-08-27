@@ -13,6 +13,7 @@
   "provides": {
     "Grammar::ABNF": "lib/Grammar/ABNF.rakumod",
     "Grammar::BNF": "lib/Grammar/BNF.rakumod",
+    "Slang": "lib/Slang.rakumod",
     "Slang::ABNF": "lib/Slang/ABNF.rakumod",
     "Slang::BNF": "lib/Slang/BNF.rakumod"
   },
